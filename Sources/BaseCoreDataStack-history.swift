@@ -14,12 +14,10 @@ import os
 extension BaseCoreDataStack {
     func initStoreRemoteChangeNotification(_ container: NSPersistentContainer) {
         logger.notice("\(#function)")
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(storeRemoteChange(_:)),
-            name: .NSPersistentStoreRemoteChange,
-            object: container.persistentStoreCoordinator
-        )
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(storeRemoteChange(_:)),
+                                               name: .NSPersistentStoreRemoteChange,
+                                               object: container.persistentStoreCoordinator)
     }
 
     func deinitStoreRemoteChangeNotification() {
