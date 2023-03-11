@@ -28,7 +28,7 @@ public extension NSManagedObjectContext {
 
     /// Batch delete all records for an entity for the given objectIDs.
     ///
-    /// NOTE that objectIDs must all be from the same entityType, or you'll
+    /// NOTE: that objectIDs must all be from the same entityType, or you'll
     /// get the "mismatched objectIDs in batch delete initializer" runtime error.
     ///
     /// Safe to run on a background context.

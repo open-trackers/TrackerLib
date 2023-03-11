@@ -32,7 +32,8 @@ public func splitTime(_ hhmmss: String) -> (Int, Int, Int)? {
 
 /// Split into local date/time in format "YYYY-MM-DD" and "hh:mm:ss" (24hr).
 /// NOTE: created for use with SectionedFetchRequest.
-public func splitDate(_ srcDate: Date, tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
+/// NOTE: may need more tests
+public func splitDateLocal(_ srcDate: Date, tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
     let df = ISO8601DateFormatter()
     df.timeZone = tz
 
@@ -42,6 +43,24 @@ public func splitDate(_ srcDate: Date, tz: TimeZone = TimeZone.current) -> (date
 
     guard let result = raw.firstMatch(of: pattern) else { return nil }
     return (String(result.1), String(result.2))
+}
+
+/// Merge YYYY-MM-DD and optionally 00:00:00 together into a Date()
+/// Will assume that time is local to time zone.
+/// If no date specified, will assume local midnight.
+/// NOTE: may need more tests
+public func mergeDateLocal(dateStr: String,
+                           timeStr: String? = nil,
+                           tz: TimeZone = TimeZone.current) -> Date?
+{
+    let df = ISO8601DateFormatter()
+    let seconds = tz.secondsFromGMT()
+    let hours: Int = seconds / 3600
+    let minutes: Int = seconds / 60 % 60
+    let offset = String(format: "%+03d%02d", hours, minutes)
+    let midnight = "00:00:00"
+    let combined = "\(dateStr)T\(timeStr ?? midnight)\(offset)"
+    return df.date(from: combined)
 }
 
 public func getSubjectiveDate(startOfDay: Int, // secs since midnight
@@ -94,7 +113,7 @@ public func getSubjectiveDate(dayStartHour: Int,
         return now
     }()
 
-    guard let (dateStr, timeStr) = splitDate(netNow, tz: tz) else { return nil }
+    guard let (dateStr, timeStr) = splitDateLocal(netNow, tz: tz) else { return nil }
 
     if !rollback { return (dateStr, timeStr) } // normal situation
 

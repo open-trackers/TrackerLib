@@ -90,8 +90,8 @@ open class BaseCoreDataStack {
     }()
 
     // override this for de-duping
-    // NOTE that this is happening on background thread
-    // NOTE handler is responsible for saving context
+    // NOTE: that this is happening on background thread
+    // NOTE: handler is responsible for saving context
     open func handleInsert(backgroundContext _: NSManagedObjectContext,
                            entityName _: String,
                            objectID _: NSManagedObjectID,
