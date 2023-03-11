@@ -1,5 +1,5 @@
 //
-//  SplitDateTests.swift
+//  SplitDateLocalTests.swift
 //
 // Copyright 2023  OpenAlloc LLC
 //
@@ -13,7 +13,7 @@ import CoreData
 @testable import TrackerLib
 import XCTest
 
-final class SplitDateTests: TestBase {
+final class SplitDateLocalTests: TestBase {
     let timestampStr = "2022-02-05T01:20:05Z"
     var timestamp: Date!
 
