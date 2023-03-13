@@ -11,17 +11,17 @@
 import Foundation
 
 public extension Date {
+    private static let dateFormat = "yyyy-MM-dd HH:mm:ss"
+
     /// Split a Date into a local "yyyy-MM-dd" and "HH:mm:ss" (24hr) for the specified time zone.
     func splitToLocal(tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
-        let df = ISO8601DateFormatter()
+        let df = DateFormatter()
+        df.dateFormat = Self.dateFormat
         df.timeZone = tz
-
-        let raw = df.string(from: self) // 2022-02-04T18:20:05-07:00
-
-        let pattern = #/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/#
-
-        guard let result = raw.firstMatch(of: pattern) else { return nil }
-        return (String(result.1), String(result.2))
+        let localStr = df.string(from: self) // 2022-02-04 18:20:05
+        let result = localStr.split(separator: " ")
+        guard result.count == 2 else { return nil }
+        return (String(result[0]), String(result[1]))
     }
 
     /// Merge the local "yyyy-MM-dd" and "HH:mm:ss" (24hr) together into a Date().
@@ -31,11 +31,11 @@ public extension Date {
                                timeStr: String,
                                tz: TimeZone = TimeZone.current) -> Date?
     {
-        let combined = "\(dateStr) \(timeStr)"
+        let localStr = "\(dateStr) \(timeStr)"
         let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        df.dateFormat = dateFormat
         df.timeZone = tz
-        return df.date(from: combined)
+        return df.date(from: localStr)
     }
 
     /// Split "23:59:30" to (23, 59, 30).
