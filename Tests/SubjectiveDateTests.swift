@@ -25,6 +25,8 @@ class SubjectiveDateTests: TestBase {
     var beforeMidnightDate: Date!
     let midnightStr = "2023-01-13T00:00:00"
     var midnightDate: Date!
+    let noonStr = "2023-01-13T12:00:00"
+    var noonDate: Date!
 
     // using 05:30 as a threshold
     let startHour = 5
@@ -41,47 +43,48 @@ class SubjectiveDateTests: TestBase {
 
         beforeMidnightDate = df.date(from: "\(beforeMidnight)\(tzStr)")
         midnightDate = df.date(from: "\(midnightStr)\(tzStr)")
+        noonDate = df.date(from: "\(noonStr)\(tzStr)")
         preThresholdDate = df.date(from: "\(preThresholdStr)\(tzStr)")
         thresholdDate = df.date(from: "\(thresholdStr)\(tzStr)")
         postThresholdDate = df.date(from: "\(postThresholdStr)\(tzStr)")
     }
 
     func testDayStartParams() throws {
-        XCTAssertNotNil(getSubjectiveDate(dayStartHour: 0, dayStartMinute: 0))
-        XCTAssertNotNil(getSubjectiveDate(dayStartHour: 23, dayStartMinute: 0))
-        XCTAssertNotNil(getSubjectiveDate(dayStartHour: 0, dayStartMinute: 59))
-        XCTAssertNil(getSubjectiveDate(dayStartHour: -1, dayStartMinute: 0))
-        XCTAssertNil(getSubjectiveDate(dayStartHour: 0, dayStartMinute: -1))
-        XCTAssertNil(getSubjectiveDate(dayStartHour: 24, dayStartMinute: 0))
-        XCTAssertNil(getSubjectiveDate(dayStartHour: 0, dayStartMinute: 60))
+        XCTAssertNotNil(noonDate.getSubjectiveDate(dayStartHour: 0, dayStartMinute: 0))
+        XCTAssertNotNil(noonDate.getSubjectiveDate(dayStartHour: 23, dayStartMinute: 0))
+        XCTAssertNotNil(noonDate.getSubjectiveDate(dayStartHour: 0, dayStartMinute: 59))
+        XCTAssertNil(noonDate.getSubjectiveDate(dayStartHour: -1, dayStartMinute: 0))
+        XCTAssertNil(noonDate.getSubjectiveDate(dayStartHour: 0, dayStartMinute: -1))
+        XCTAssertNil(noonDate.getSubjectiveDate(dayStartHour: 24, dayStartMinute: 0))
+        XCTAssertNil(noonDate.getSubjectiveDate(dayStartHour: 0, dayStartMinute: 60))
     }
 
     func testYesterdayBeforeMidnight() throws {
-        let pair = getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, now: beforeMidnightDate, tz: tz)
+        let pair = beforeMidnightDate.getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, tz: tz)
         XCTAssertEqual(yesterday, pair?.0)
         XCTAssertEqual("23:59:59", pair?.1)
     }
 
     func testYesterdayAtMidnight() throws {
-        let pair = getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, now: midnightDate, tz: tz)
+        let pair = midnightDate.getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, tz: tz)
         XCTAssertEqual(yesterday, pair?.0)
         XCTAssertEqual("24:00:00", pair?.1)
     }
 
     func testYesterdayPreThreshold() throws {
-        let pair = getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, now: preThresholdDate, tz: tz)
+        let pair = preThresholdDate.getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, tz: tz)
         XCTAssertEqual(yesterday, pair?.0)
         XCTAssertEqual("29:29:59", pair?.1)
     }
 
     func testTodayAtThreshold() throws {
-        let pair = getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, now: thresholdDate, tz: tz)
+        let pair = thresholdDate.getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, tz: tz)
         XCTAssertEqual(today, pair?.0)
         XCTAssertEqual("05:30:00", pair?.1)
     }
 
     func testTodayAfterThreshold() throws {
-        let pair = getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, now: postThresholdDate, tz: tz)
+        let pair = postThresholdDate.getSubjectiveDate(dayStartHour: startHour, dayStartMinute: startMinute, tz: tz)
         XCTAssertEqual(today, pair?.0)
         XCTAssertEqual("05:31:00", pair?.1)
     }

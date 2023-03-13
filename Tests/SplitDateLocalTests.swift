@@ -24,8 +24,7 @@ final class SplitDateLocalTests: TestBase {
     }
 
     func testSimpleSplit() throws {
-        let (dateStr, timeStr) = splitDateLocal(timestamp,
-                                                tz: .init(abbreviation: "MST")!)!
+        let (dateStr, timeStr) = timestamp.splitToLocal(tz: .init(abbreviation: "MST")!)!
         // from 2022-02-04T18:20:05-07:00
         XCTAssertEqual("2022-02-04", dateStr)
         XCTAssertEqual("18:20:05", timeStr)
@@ -35,8 +34,8 @@ final class SplitDateLocalTests: TestBase {
         let dateStr = "2022-02-04"
         let timeStr = "18:20:05"
 
-        let merged = mergeDateLocal(dateStr: dateStr, timeStr: timeStr,
-                                    tz: .init(abbreviation: "MST")!)
+        let merged = Date.mergeFromLocal(dateStr: dateStr, timeStr: timeStr,
+                                         tz: .init(abbreviation: "MST")!)
 
         XCTAssertEqual(timestamp, merged)
     }
@@ -45,8 +44,8 @@ final class SplitDateLocalTests: TestBase {
         let dateStr = "2022-02-05"
         let timeStr = "00:00:00"
 
-        let merged = mergeDateLocal(dateStr: dateStr, timeStr: timeStr,
-                                    tz: .init(abbreviation: "MST")!)
+        let merged = Date.mergeFromLocal(dateStr: dateStr, timeStr: timeStr,
+                                         tz: .init(abbreviation: "MST")!)
 
         let ts2Str = "2022-02-05T07:00:00+0000"
         let ts2 = df.date(from: ts2Str)
