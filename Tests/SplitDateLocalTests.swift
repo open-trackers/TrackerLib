@@ -53,31 +53,4 @@ final class SplitDateLocalTests: TestBase {
 
         XCTAssertEqual(ts2, merged)
     }
-
-    func testSimpleMergeNoTime() throws {
-        let dateStr = "2022-02-05"
-        let timeStr: String? = nil
-
-        let merged = mergeDateLocal(dateStr: dateStr, timeStr: timeStr,
-                                    tz: .init(abbreviation: "MST")!)
-
-        let ts2Str = "2022-02-05T07:00:00+0000"
-        let ts2 = df.date(from: ts2Str)
-
-        XCTAssertEqual(ts2, merged)
-    }
-
-    func testSimpleMergePositive() throws {
-        let dateStr = "2022-02-05"
-        let timeStr: String? = nil
-        let seconds = 12 * 60 * 60 // "+12:00"
-
-        let merged = mergeDateLocal(dateStr: dateStr, timeStr: timeStr,
-                                    tz: .init(secondsFromGMT: seconds)!)
-
-        let ts2Str = "2022-02-05T00:00:00+1200"
-        let ts2 = df.date(from: ts2Str)
-
-        XCTAssertEqual(ts2, merged)
-    }
 }

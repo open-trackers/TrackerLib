@@ -30,9 +30,7 @@ public func splitTime(_ hhmmss: String) -> (Int, Int, Int)? {
     return (hour, minute, second)
 }
 
-/// Split into local date/time in format "YYYY-MM-DD" and "hh:mm:ss" (24hr).
-/// NOTE: created for use with SectionedFetchRequest.
-/// NOTE: may need more tests
+/// Split a Date into a local "yyyy-MM-dd" and "HH:mm:ss" (24hr) for the specified time zone.
 public func splitDateLocal(_ srcDate: Date, tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
     let df = ISO8601DateFormatter()
     df.timeZone = tz
@@ -45,21 +43,17 @@ public func splitDateLocal(_ srcDate: Date, tz: TimeZone = TimeZone.current) -> 
     return (String(result.1), String(result.2))
 }
 
-/// Merge YYYY-MM-DD and optionally 00:00:00 together into a Date()
-/// Will assume that time is local to time zone.
-/// If no date specified, will assume local midnight.
-/// NOTE: may need more tests
+/// Merge the local "yyyy-MM-dd" and "HH:mm:ss" together into a Date().
+/// Will assume that day and time is local to the time zone.
+/// If no timezone specified, will assume system's current tz.
 public func mergeDateLocal(dateStr: String,
-                           timeStr: String? = nil,
+                           timeStr: String,
                            tz: TimeZone = TimeZone.current) -> Date?
 {
-    let df = ISO8601DateFormatter()
-    let seconds = tz.secondsFromGMT()
-    let hours: Int = seconds / 3600
-    let minutes: Int = seconds / 60 % 60
-    let offset = String(format: "%+03d%02d", hours, minutes)
-    let midnight = "00:00:00"
-    let combined = "\(dateStr)T\(timeStr ?? midnight)\(offset)"
+    let combined = "\(dateStr) \(timeStr)"
+    let df = DateFormatter()
+    df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    df.timeZone = tz
     return df.date(from: combined)
 }
 
@@ -69,7 +63,10 @@ public func getSubjectiveDate(startOfDay: Int, // secs since midnight
 {
     let dayStartHour = startOfDay / 3600
     let dayStartMinute = startOfDay % 60
-    return getSubjectiveDate(dayStartHour: dayStartHour, dayStartMinute: dayStartMinute, now: now, tz: tz)
+    return getSubjectiveDate(dayStartHour: dayStartHour,
+                             dayStartMinute: dayStartMinute,
+                             now: now,
+                             tz: tz)
 }
 
 /// Get the 'subjective' date based on user-specified starting time of day, local time, and current time.
