@@ -10,11 +10,11 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
     private static let dateFormat = "yyyy-MM-dd HH:mm:ss"
 
     /// Split a Date into a local "yyyy-MM-dd" and "HH:mm:ss" (24hr) for the specified time zone.
-    public func splitToLocal(tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
+    func splitToLocal(tz: TimeZone = TimeZone.current) -> (date: String, time: String)? {
         let df = DateFormatter()
         df.dateFormat = Self.dateFormat
         df.timeZone = tz
@@ -27,7 +27,7 @@ extension Date {
     /// Merge the local "yyyy-MM-dd" and "HH:mm:ss" (24hr) together into a Date().
     /// Will assume that day and time is local to the time zone.
     /// If no timezone specified, will assume system's current tz.
-    public static func mergeFromLocal(dateStr: String,
+    static func mergeFromLocal(dateStr: String,
                                timeStr: String,
                                tz: TimeZone = TimeZone.current) -> Date?
     {
