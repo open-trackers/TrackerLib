@@ -17,198 +17,198 @@ class DecimalNumPadTests: XCTestCase {
     func testNoArgs() throws {
         let x = DecimalNumPad()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testInitZero() throws {
         let x = DecimalNumPad(0)
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testInit1() throws {
         let x = DecimalNumPad(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
     }
 
     func testInit1_0() throws {
         let x = DecimalNumPad(1.0)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
     }
 
     func testInit1_1() throws {
         let x = DecimalNumPad(1.1)
         XCTAssertEqual("1.1", x.sValue)
-        XCTAssertEqual(1.1, x.decimalValue)
+        XCTAssertEqual(1.1, x.value)
     }
 
     func testInitBad() throws {
         let x = DecimalNumPad(-1, range: 0 ... 1)
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testValueLargeWithinPrecision() throws {
         let x = DecimalNumPad(2_348_938.93, precision: 2)
         XCTAssertEqual("2348938.93", x.sValue)
-        XCTAssertEqual(2_348_938.93, x.decimalValue)
+        XCTAssertEqual(2_348_938.93, x.value)
     }
 
     func testValueLargeBeyondPrecisionRounds() throws {
         let x = DecimalNumPad(2_348_938.936, precision: 2)
         XCTAssertEqual("2348938.94", x.sValue)
-        XCTAssertEqual(2_348_938.94, x.decimalValue)
+        XCTAssertEqual(2_348_938.94, x.value)
     }
 
     func testBadDigits() throws {
         var x = DecimalNumPad(34.3)
         x.digitAction(-1)
         XCTAssertEqual("34.3", x.sValue)
-        XCTAssertEqual(34.3, x.decimalValue)
+        XCTAssertEqual(34.3, x.value)
 
         x.digitAction(10)
         XCTAssertEqual("34.3", x.sValue)
-        XCTAssertEqual(34.3, x.decimalValue)
+        XCTAssertEqual(34.3, x.value)
     }
 
     func testAddAndRemoveDigits() throws {
         var x = DecimalNumPad()
         x.digitAction(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.digitAction(2)
         XCTAssertEqual("12", x.sValue)
-        XCTAssertEqual(12, x.decimalValue)
+        XCTAssertEqual(12, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testRedundantZero() throws {
         var x = DecimalNumPad()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
 
         x.digitAction(0)
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testAddDigitAndDecimalPoint() throws {
         var x = DecimalNumPad()
         x.digitAction(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.digitAction(2)
         XCTAssertEqual("1.2", x.sValue)
-        XCTAssertEqual(1.2, x.decimalValue)
+        XCTAssertEqual(1.2, x.value)
     }
 
     func testBackspaceDecimalPoint() throws {
         var x = DecimalNumPad(1.2)
         XCTAssertEqual("1.2", x.sValue)
-        XCTAssertEqual(1.2, x.decimalValue)
+        XCTAssertEqual(1.2, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testRedundantBackspace() throws {
         var x = DecimalNumPad(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
 
         x.backspaceAction()
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
     }
 
     func testRedundantAdjacentDecimalPoint() throws {
         var x = DecimalNumPad()
         x.digitAction(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
     }
 
     func testRedundantSecondDecimalPoint() throws {
         var x = DecimalNumPad(1.2)
 
         XCTAssertEqual("1.2", x.sValue)
-        XCTAssertEqual(1.2, x.decimalValue)
+        XCTAssertEqual(1.2, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.2", x.sValue)
-        XCTAssertEqual(1.2, x.decimalValue)
+        XCTAssertEqual(1.2, x.value)
     }
 
     func testDecimalPointBackspace() throws {
         var x = DecimalNumPad()
         x.digitAction(1)
         XCTAssertEqual("1", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("1.", x.sValue)
-        XCTAssertEqual(1, x.decimalValue)
+        XCTAssertEqual(1, x.value)
     }
 
     func testPenny() throws {
         var x = DecimalNumPad(precision: 2)
         XCTAssertEqual("0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
         XCTAssertEqual(0, x.currentPrecision)
 
         x.decimalPointAction()
         XCTAssertEqual("0.", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
         XCTAssertEqual(0, x.currentPrecision)
 
         x.digitAction(0)
         XCTAssertEqual("0.0", x.sValue)
-        XCTAssertEqual(0, x.decimalValue)
+        XCTAssertEqual(0, x.value)
         XCTAssertEqual(1, x.currentPrecision)
 
         x.digitAction(1)
         XCTAssertEqual("0.01", x.sValue)
-        XCTAssertEqual(0.01, x.decimalValue)
+        XCTAssertEqual(0.01, x.value)
         XCTAssertEqual(2, x.currentPrecision)
     }
 
@@ -216,56 +216,56 @@ class DecimalNumPadTests: XCTestCase {
         var x = DecimalNumPad(0.01, precision: 2)
 
         XCTAssertEqual("0.01", x.sValue)
-        XCTAssertEqual(0.01, x.decimalValue)
+        XCTAssertEqual(0.01, x.value)
         XCTAssertEqual(2, x.currentPrecision)
 
         x.digitAction(9)
         XCTAssertEqual("0.01", x.sValue)
-        XCTAssertEqual(0.01, x.decimalValue)
+        XCTAssertEqual(0.01, x.value)
         XCTAssertEqual(2, x.currentPrecision)
     }
 
     func testInitializeOutsidePrecision() throws {
         let x = DecimalNumPad(10.18, precision: 1)
         XCTAssertEqual("10.2", x.sValue)
-        XCTAssertEqual(10.2, x.decimalValue)
+        XCTAssertEqual(10.2, x.value)
     }
 
     func testInitializeInsideRange() throws {
         let x = DecimalNumPad(10, range: 0 ... 10)
         XCTAssertEqual("10", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
     }
 
     func testInitializeOutsideRange() throws {
         let x = DecimalNumPad(10.01, precision: 2, range: 0 ... 10)
         XCTAssertEqual("10", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
     }
 
     func testIgnoreIfOutsideRange() throws {
         var x = DecimalNumPad(10, precision: 2, range: 0 ... 10)
         XCTAssertEqual("10", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
 
         x.decimalPointAction()
         XCTAssertEqual("10.", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
         XCTAssertEqual(0, x.currentPrecision)
 
         x.digitAction(0)
         XCTAssertEqual("10.0", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
         XCTAssertEqual(1, x.currentPrecision)
 
         x.digitAction(1)
         XCTAssertEqual("10.0", x.sValue)
-        XCTAssertEqual(10.0, x.decimalValue)
+        XCTAssertEqual(10.0, x.value)
         XCTAssertEqual(1, x.currentPrecision)
 
         x.digitAction(0)
         XCTAssertEqual("10.00", x.sValue)
-        XCTAssertEqual(10, x.decimalValue)
+        XCTAssertEqual(10, x.value)
         XCTAssertEqual(2, x.currentPrecision)
     }
 }
