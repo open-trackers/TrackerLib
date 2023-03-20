@@ -18,6 +18,7 @@ public enum TrackerError: Error, Equatable {
     case invalidStoreConfiguration(msg: String)
     case encodingError(msg: String)
     case archiveCreationFailure
+    case invalidAction(msg: String)
 
     var localizedDescription: String {
         description
@@ -31,6 +32,7 @@ public enum TrackerError: Error, Equatable {
         case let .invalidStoreConfiguration(msg): return "Invalid store configuration: \(msg)"
         case let .encodingError(msg): return "Encoding error: \(msg)"
         case .archiveCreationFailure: return "Archive creation failure."
+        case let .invalidAction(msg): return "Invalid action: \(msg)"
         }
     }
 }
