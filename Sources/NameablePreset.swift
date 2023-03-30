@@ -10,7 +10,7 @@
 
 import Foundation
 
-public protocol NameablePreset {
+public protocol NameablePreset: Hashable {
     var title: String { get set }
 }
 
