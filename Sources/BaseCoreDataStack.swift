@@ -13,6 +13,11 @@ import os
 
 import Collections
 
+// TODO:
+// var isICloudContainerAvailable: Bool {
+//    FileManager.default.ubiquityIdentityToken != nil
+//  }
+
 // Multi-store support
 // CloudKit support
 // History change support (for de-duplication)
