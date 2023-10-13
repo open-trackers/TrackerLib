@@ -12,15 +12,13 @@ import Foundation
 
 // system image for 0...50 in a shape, where .circle or .square is appended
 public func systemImagePrefix(_ value: Int, defaultName: String = "questionmark") -> String {
-    let val: String = {
-        switch value {
-        case 4, 6, 9:
-            return "\(value).alt"
-        case 0 ... 50:
-            return "\(value)"
-        default:
-            return defaultName
-        }
-    }()
+    let val: String = switch value {
+    case 4, 6, 9:
+        "\(value).alt"
+    case 0 ... 50:
+        "\(value)"
+    default:
+        defaultName
+    }
     return val
 }

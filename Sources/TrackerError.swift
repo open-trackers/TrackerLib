@@ -26,13 +26,13 @@ public enum TrackerError: Error, Equatable {
 
     var description: String {
         switch self {
-        case let .fetchError(msg): return "Data fetch error: \(msg)"
-        case let .missingData(msg): return "Missing data: \(msg)"
-        case let .invalidData(msg): return "Invalid data: \(msg)"
-        case let .invalidStoreConfiguration(msg): return "Invalid store configuration: \(msg)"
-        case let .encodingError(msg): return "Encoding error: \(msg)"
-        case .archiveCreationFailure: return "Archive creation failure."
-        case let .invalidAction(msg): return "Invalid action: \(msg)"
+        case let .fetchError(msg): "Data fetch error: \(msg)"
+        case let .missingData(msg): "Missing data: \(msg)"
+        case let .invalidData(msg): "Invalid data: \(msg)"
+        case let .invalidStoreConfiguration(msg): "Invalid store configuration: \(msg)"
+        case let .encodingError(msg): "Encoding error: \(msg)"
+        case .archiveCreationFailure: "Archive creation failure."
+        case let .invalidAction(msg): "Invalid action: \(msg)"
         }
     }
 }

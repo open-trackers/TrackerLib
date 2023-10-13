@@ -23,33 +23,33 @@
         public var description: String {
             switch self {
             case .CSV:
-                return "Comma-delimited"
+                "Comma-delimited"
             case .TSV:
-                return "Tab-delimited"
+                "Tab-delimited"
             case .JSON:
-                return "JSON"
+                "JSON"
             }
         }
 
         public var delimiter: Character? {
             switch self {
             case .CSV:
-                return ","
+                ","
             case .TSV:
-                return "\t"
+                "\t"
             default:
-                return nil
+                nil
             }
         }
 
         public var defaultFileExtension: String {
             switch self {
             case .CSV:
-                return "csv"
+                "csv"
             case .TSV:
-                return "tsv"
+                "tsv"
             case .JSON:
-                return "json"
+                "json"
             }
         }
     }

@@ -28,7 +28,7 @@ extension BaseCoreDataStack {
 
     // MARK: - Internal Methods
 
-    internal func getStoreDescription(storeKey: String) -> NSPersistentStoreDescription {
+    func getStoreDescription(storeKey: String) -> NSPersistentStoreDescription {
         let url: URL = {
             let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
             let suffix = storeKey.capitalized

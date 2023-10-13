@@ -82,13 +82,13 @@ open class BaseCoreDataStack {
 
     // MARK: - History / Remote Notification support
 
-    internal lazy var tokenFileURL: URL = getTokenFileURL(name: baseFileName)
+    lazy var tokenFileURL: URL = getTokenFileURL(name: baseFileName)
 
     // an operation queue for handling history processing tasks, including
     // * watching changes
     // * deduplicating
     // * triggering UI updates, if needed
-    internal lazy var historyQueue: OperationQueue = {
+    lazy var historyQueue: OperationQueue = {
         let q = OperationQueue()
         q.maxConcurrentOperationCount = 1
         return q

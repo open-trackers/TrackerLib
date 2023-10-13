@@ -1,5 +1,5 @@
 //
-//  Time-Formatters.swift
+//  TimeElapsedFormat.swift
 //
 // Copyright 2023  OpenAlloc LLC
 //
@@ -21,16 +21,14 @@ public func formatElapsed(seconds: UInt, timeElapsedFormat: TimeElapsedFormat = 
     let secondsPerHour: UInt = 3600
     let secondsPerDay: UInt = 24 * secondsPerHour
 
-    let upperBound: UInt = {
-        switch timeElapsedFormat {
-        case .hh_mm:
-            return secondsPerDay
-        case .hh_mm_ss:
-            return secondsPerDay
-        case .mm_ss:
-            return secondsPerHour
-        }
-    }()
+    let upperBound: UInt = switch timeElapsedFormat {
+    case .hh_mm:
+        secondsPerDay
+    case .hh_mm_ss:
+        secondsPerDay
+    case .mm_ss:
+        secondsPerHour
+    }
     guard (0 ..< upperBound).contains(seconds) else { return nil }
 
     let hours = seconds / 60 / 60
