@@ -45,6 +45,17 @@ extension BaseCoreDataStack {
         // ensure viewContext receives changes from saves of backgroundContext
         container.viewContext.automaticallyMergesChangesFromParent = true
 
+        // in-memory changes will win any conflict
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
+        // use generational querying, where this context will pin itself to the generation of the database when it first loads data
+        // NOTE not used until more research is done on whether it's needed
+//        do {
+//            try container.viewContext.setQueryGenerationFrom(.current)
+//        } catch {
+//            logger.error("\(#function) setQueryGenerationFrom ERROR \(error)")
+//        }
+
         // NOTE: the following is necessary to fully initialize the development container(s)
         //       so that a complete deployment to production is possible in CloudKit dashboard.
         // NOTE: Both containers need to be deployed to production.
