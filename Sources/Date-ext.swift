@@ -11,7 +11,7 @@
 import Foundation
 
 /// Extension to support Date in SceneStorage/AppStorage
-extension Date: RawRepresentable {
+extension Date: @retroactive RawRepresentable {
     public var rawValue: String {
         timeIntervalSinceReferenceDate.description
     }

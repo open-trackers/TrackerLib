@@ -11,7 +11,7 @@
 import Foundation
 
 /// Extension to support selection of URL in .sheet/.fullScreenCover
-extension URL: Identifiable {
+extension URL: @retroactive Identifiable {
     public var id: Int {
         hashValue
     }
@@ -25,7 +25,7 @@ extension URL: Identifiable {
     }
 }
 
-extension URL: RawRepresentable {
+extension URL: @retroactive RawRepresentable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode(URL.self, from: data)

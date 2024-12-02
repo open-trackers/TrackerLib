@@ -10,7 +10,7 @@
 
 import Foundation
 
-extension Dictionary: RawRepresentable where Key: Codable & Hashable, Value: Codable {
+extension Dictionary: @retroactive RawRepresentable where Key: Codable & Hashable, Value: Codable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode([Key: Value].self, from: data)

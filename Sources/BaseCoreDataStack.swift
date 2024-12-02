@@ -18,6 +18,8 @@ import Collections
 //    FileManager.default.ubiquityIdentityToken != nil
 //  }
 
+extension BaseCoreDataStack: ObservableObject {}
+
 // Multi-store support
 // CloudKit support
 // History change support (for de-duplication)

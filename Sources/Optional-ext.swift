@@ -11,7 +11,7 @@
 import Foundation
 
 // via markiv on StackOverflow
-extension Optional: RawRepresentable where Wrapped: Codable {
+extension Optional: @retroactive RawRepresentable where Wrapped: Codable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode(Self.self, from: data)
